@@ -25,9 +25,8 @@ import {
 } from '@chakra-ui/core';
 
 import CounterContainer from '../containers/CounterContainer';
-import Printers from "./Printers/Printers";
-
-const ipc = require('electron').ipcRenderer;
+import Printers from './Printers/Printers';
+import PrintJobQueue from './PrintJobQueue/PrintJobQueue';
 
 function PlacementExample() {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,25 +38,41 @@ function PlacementExample() {
                     <Tab>Print Jobs</Tab>
                     <Tab>Available Printers</Tab>
                     <Tab>Counter</Tab>
+                    <Tab>Open Drawer</Tab>
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                        <Button variantColor="blue" onClick={onOpen}>
-                            Open Drawer
-                        </Button>
-                        <Button
-                            variantColor="green"
-                            onClick={() => {
-                                ipc.send('message', localStorage.getItem('selectedPrinter'));
-                            }}>
-                            Print
-                        </Button>
+                        <PrintJobQueue
+                            jobs={[
+                                {
+                                    name: 'Job 1',
+                                    status: 'QUEUED'
+                                },
+                                {
+                                    name: 'Job 2',
+                                    status: 'READY'
+                                },
+                                {
+                                    name: 'Job 3',
+                                    status: 'PROCESSED'
+                                },
+                                {
+                                    name: 'Job 4',
+                                    status: 'SYNCED'
+                                }
+                            ]}
+                            />
                     </TabPanel>
                     <TabPanel>
                         <Printers heading="Select Hardware Printer To Which Prints Will Be Sent" />
                     </TabPanel>
                     <TabPanel>
                         <CounterContainer />
+                    </TabPanel>
+                    <TabPanel>
+                        <Button variantColor="blue" onClick={onOpen}>
+                            Open Drawer
+                        </Button>
                     </TabPanel>
                 </TabPanels>
             </Tabs>
