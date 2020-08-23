@@ -33,7 +33,7 @@ function PlacementExample() {
 
     return (
         <>
-            <Tabs variant="soft-rounded" variantColor="green">
+            <Tabs variant="soft-rounded" variantColor="green" size="sm">
                 <TabList>
                     <Tab>Print Jobs</Tab>
                     <Tab>Available Printers</Tab>

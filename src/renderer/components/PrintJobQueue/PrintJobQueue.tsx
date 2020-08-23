@@ -38,31 +38,37 @@ export interface Props {
 }
 
 const PrintJobQueue: React.FunctionComponent<Props> = ({ jobs }) => {
+    if (!jobs.length) {
+        return (
+            <Flex align="center" justify="center" size="90vh">
+                No Print Jobs Available
+            </Flex>
+        );
+    }
+
     const [selectedJob, setJob] = React.useState(jobs[0]);
 
     return (
-        <div>
-            <Flex align="center" size="100%">
-                <Flex bg="green.50" size="200px" align="flex-start" justify="center">
-                    <List spacing={4}>
-                        {jobs.map((job: any) => {
-                            const isSelected = selectedJob.name === job.name;
-                            return (
-                                <ListItem
-                                    className={isSelected ? 'active' : ''}
-                                    key={job.name}
-                                    onClick={e => setJob(job)}>
-                                    {job.name}
-                                </ListItem>
-                            );
-                        })}
-                    </List>
-                </Flex>
-                <Flex bg="blue.50" size="100%" align="center" justify="center" direction="column">
-                    <PrintJobView job={selectedJob} />
-                </Flex>
+        <Flex width="100vw" align="flex-start" paddingTop="20px" height="80vh">
+            <Flex bg="green.50" size="200px" align="flex-start" justify="center">
+                <List spacing={4}>
+                    {jobs.map((job: any) => {
+                        const isSelected = selectedJob.name === job.name;
+                        return (
+                            <ListItem
+                                className={isSelected ? 'active' : ''}
+                                key={job.name}
+                                onClick={e => setJob(job)}>
+                                {job.name}
+                            </ListItem>
+                        );
+                    })}
+                </List>
             </Flex>
-        </div>
+            <Flex bg="blue.50" size="100%" align="center" direction="column" paddingTop="20px">
+                <PrintJobView job={selectedJob} />
+            </Flex>
+        </Flex>
     );
 };
 
